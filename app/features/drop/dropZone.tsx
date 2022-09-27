@@ -107,9 +107,13 @@ const DropZone = () => {
     };
     const response = await axios.post("/api/fileupload", formData, config);
     const filesS = response.data.data;
+    console.log("entre antes de estatus");
+    console.log(response);
     if (response.status === 200) {
       const names = filesS.map((a: any) => a.originalname);
+      console.log(pics);
       dispatch(pics(names));
+      console.log(names);
       router.push("/uploaded");
     }
   };
