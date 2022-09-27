@@ -23,6 +23,9 @@ console.log(upload.fields);
 apiRoute.use(uploadMiddleware);
 
 apiRoute.post((req: NextApiRequest, res: NextApiResponse) => {
+  console.log(req);
+  // @ts-ignore
+  console.log(req.files);
   // @ts-ignore
   res.status(200).json({ data: req.files });
 });
