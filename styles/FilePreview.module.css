@@ -1,0 +1,14 @@
+.fileList {
+  padding: 0 20px;
+  overflow-wrap: break-word;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  list-style: none;
+}
+
+.fileList > li {
+  margin: 10px 0;
+}
