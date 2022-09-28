@@ -7,18 +7,17 @@ import estilo from "../styles/drop.module.css";
 
 export const Uploaded = () => {
   const [buttonText, setButtonText] = useState("Copy Link");
-  const pics = useAppSelector((state: RootState) => state.drops.pics);
+  const pic = useAppSelector((state: RootState) => state.drops.pics);
+  console.log(pic);
   const router = useRouter();
   useEffect(() => {
-    if (pics.length === 0) {
+    if (!pic.id) {
       router.push("/");
     }
-  }, [pics]);
+  }, [pic]);
 
-  const handleClick = async ({ pic }: { pic: string }) => {
-    navigator.clipboard.writeText(
-      `http://localhost:3000/_next/image?url=%2Fuploads%2F${pic}&w=640&q=75`
-    );
+  const handleClick = async (url: string) => {
+    navigator.clipboard.writeText(`${url}`);
     setButtonText("Copied!");
     await setTimeout(() => {
       setButtonText("Copy Link");
@@ -28,26 +27,24 @@ export const Uploaded = () => {
     <>
       <div className={estilo.containerImgs}>
         <h1 className={estilo.titulo}>Uploaded images</h1>
-        {pics.map((pic: any, i: any) => (
-          <div key={i}>
-            <Image
-              src={`/uploads/${pic}`}
-              alt={`${pic}`}
-              layout="intrinsic"
-              width={300}
-              height={300}
-            />
-            <div className={estilo.linked}>
-              <button
-                className={estilo.clicked}
-                type="button"
-                onClick={() => handleClick({ pic })}
-              >
-                {buttonText}
-              </button>
-            </div>
+        <div key={pic.id}>
+          <Image
+            src={pic.url!}
+            alt={pic.name!}
+            layout="intrinsic"
+            width={300}
+            height={300}
+          />
+          <div className={estilo.linked}>
+            <button
+              className={estilo.clicked}
+              type="button"
+              onClick={() => handleClick(pic.url!)}
+            >
+              {buttonText}
+            </button>
           </div>
-        ))}
+        </div>
 
         <button
           onClick={(e: React.FormEvent) => {

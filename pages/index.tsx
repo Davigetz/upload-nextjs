@@ -13,15 +13,18 @@ import styles from "../styles/Home.module.css";
 
 const Home: NextPage = () => {
   const isOpen = useAppSelector((state: RootState) => state.modal.isOpen);
-  const removeTemporalyFiles = async () => {
-    await axios.delete("/api/deleteFiles");
-  };
-  useEffect(() => {
-    window.addEventListener("beforeunload", removeTemporalyFiles);
-    return () => {
-      window.removeEventListener("beforeunload", removeTemporalyFiles);
-    };
-  }, []);
+  const id = useAppSelector((state: RootState) => state.drops.pics.id);
+  // const removeTemporalyFiles = async () => {
+  //   if (id) {
+  //     await axios.delete("/api/deleteFile", { data: id });
+  //   }
+  // };
+  // useEffect(() => {
+  //   window.addEventListener("beforeunload", removeTemporalyFiles);
+  //   return () => {
+  //     window.removeEventListener("beforeunload", removeTemporalyFiles);
+  //   };
+  // }, []);
   return (
     <div className={styles.container}>
       <Head>
@@ -31,8 +34,8 @@ const Home: NextPage = () => {
       <main>
         <h1 style={{ textAlign: "center" }}>Drag and Drop File Upload</h1>
         <DropZone />
+        {isOpen && <Modal />}
       </main>
-      {isOpen && <Modal />}
       <footer className={styles.footer}>
         <div>{new Date().getFullYear()}</div>
       </footer>

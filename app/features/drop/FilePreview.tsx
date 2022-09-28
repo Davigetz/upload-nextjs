@@ -5,17 +5,15 @@ import { RootState } from "../../store";
 
 const FilePreview = () => {
   const data = useAppSelector((state: RootState) => state.drops);
+  console.log(data);
   return (
     <div className={styles.fileList}>
       <ol style={{ padding: 0 }} className={styles.fileList}>
-        {data.fileList?.map((f: any) => {
-          return (
-            <li key={f.name}>
-              {/* display the filename and type */}
-              {f.name}
-            </li>
-          );
-        })}
+        {/* @ts-ignore */}
+        {data.fileList[0] && (
+          // @ts-ignore
+          <li key={data.fileList[0].data.name}>{data.fileList[0].data.name}</li>
+        )}
       </ol>
     </div>
   );

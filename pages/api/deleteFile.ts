@@ -10,22 +10,8 @@ const apiRoute = nextConnect({
 });
 
 apiRoute.delete((req: NextApiRequest, res: NextApiResponse) => {
-  const directoryPath = "./public/uploads/";
-  fs.rm(directoryPath, { recursive: true, force: true }, (err) => {
-    if (err) {
-      res.status(500).send({
-        message: "Could not delete the file. " + err,
-      });
-    }
-
-    if (!fs.existsSync(directoryPath)) {
-      fs.mkdirSync(directoryPath);
-    }
-
-    res.status(200).send({
-      message: "files and directory deleted",
-    });
-  });
+  console.log(req);
+  res.status(200).send({ data: "is donas" });
 });
 
 export default apiRoute;

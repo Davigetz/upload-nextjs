@@ -8,7 +8,7 @@ export default function Modal() {
   const ActualNumber = useAppSelector(
     (state: RootState) => state.modal.actualNumber
   );
-  console.log(ActualNumber);
+
   return (
     <div
       className={ModalStyle.BGdark}

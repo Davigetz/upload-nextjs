@@ -3,13 +3,13 @@ import { createSlice } from "@reduxjs/toolkit";
 interface dropState {
   inDropZone: boolean;
   fileList: object[];
-  pics: object[];
+  pics: { id: string | null; name: string | null; url: string | null };
 }
 
 const initialState: dropState = {
   inDropZone: false,
   fileList: [],
-  pics: [],
+  pics: { id: null, name: null, url: null },
 };
 
 export const dropSlice = createSlice({

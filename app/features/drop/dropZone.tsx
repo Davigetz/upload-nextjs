@@ -13,7 +13,10 @@ import { useRouter } from "next/router";
 const DropZone = () => {
   const data = useAppSelector((state: RootState) => state.drops);
   const router = useRouter();
-  const [pictures, setPictures] = useState<any>([]);
+  const [image, setImage] = useState<{ preview: string; data: File | null }>({
+    preview: "",
+    data: null,
+  });
   const dispatch = useAppDispatch();
   const handleDragEnter = (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,13 +37,15 @@ const DropZone = () => {
 
     // set dropEffect to copy i.e copy of the source item
     e.dataTransfer.dropEffect = "copy";
-    dispatch({ type: "SET_IN_DROP_ZONE", inDropZone: true });
+    dispatch(setInDropZone(true));
   };
 
   // onDrop sets inDropZone to false and adds files to fileList
   const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
+
+    console.log(e.dataTransfer.files);
 
     // get files from event on the dataTransfer object as an array
     let files = [...e.dataTransfer.files];
@@ -60,39 +65,27 @@ const DropZone = () => {
     }
   };
 
-  const handleFileSelect = (e: any) => {
-    // get files from event on the input element as an array
-    // @ts-ignore
-    let files = [...e.currentTarget!.files];
-    // ensure a file or files are selected
-    if (files && files.length > 0) {
-      // loop over existing files
-      const existingFiles = data.fileList.map((f: any) => f.name);
-      // check if file already exists, if so, don't add to fileList
-      // this is to prevent duplicates
-      files = files.filter((f) => !existingFiles.includes(f.name));
-      dispatch(addFileToList(files));
+  const handleFileSelect = (e: React.FormEvent<HTMLInputElement>) => {
+    const img = {
+      preview: URL.createObjectURL(e.currentTarget.files![0]),
+      data: e.currentTarget.files![0],
+    };
 
-      // dispatch action to add selected file or files to fileList
-    }
+    dispatch(addFileToList(img));
+
+    setImage(img);
   };
 
   const uploadFiles = async () => {
-    // get the files from the fileList as an array
-    let files = data.fileList;
-
     //  ini form data
     const formData = new FormData();
-    files.forEach((file: any) => formData.append("theFiles", file));
-    // Upload the files as a POST request to the server using fetch
-    // Note: /api/fileupload is not a real endpoint, it is just an example
-    // Esto es lo que hay complementar con el otro lado para evitar este mal entendido en el endpoint
+    formData.append("image", image.data!);
 
     const config = {
       headers: { "content-type": "multipart/form-data" },
       onUploadProgress: (event: ProgressEvent) => {
         const progress = Math.round((event.loaded * 100) / event.total);
-
+        console.log(progress);
         document.documentElement.style.setProperty(
           "--number-actual",
           `${progress}`
@@ -106,15 +99,11 @@ const DropZone = () => {
       },
     };
     const response = await axios.post("/api/fileupload", formData, config);
-    const filesS = response.data.data;
-    console.log("entre antes de estatus");
-    console.log(response);
     if (response.status === 200) {
-      const names = filesS.map((a: any) => a.originalname);
-      console.log(pics);
-      dispatch(pics(names));
-      console.log(names);
+      const pic = response.data.result;
+      dispatch(pics(pic));
       router.push("/uploaded");
+      // console.log("logre entrar");
     }
   };
 
@@ -142,7 +131,7 @@ const DropZone = () => {
           onChange={(e) => handleFileSelect(e)}
         />
         <label htmlFor="fileSelect" className={estilo.drag}>
-          You can select multiple Files
+          Select Your File
         </label>
 
         {data.fileList.length > 0 && (

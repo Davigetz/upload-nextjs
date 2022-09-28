@@ -1,7 +1,9 @@
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import { Provider } from "react-redux";
-import { store } from "../app/store";
+import { RootState, store } from "../app/store";
+import { useAppSelector } from "../app/hooks";
+import Modal from "../app/features/modal/modal";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
