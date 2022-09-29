@@ -5,7 +5,6 @@ import { RootState } from "../../store";
 
 const FilePreview = () => {
   const data = useAppSelector((state: RootState) => state.drops);
-  console.log(data);
   return (
     <div className={styles.fileList}>
       <ol style={{ padding: 0 }} className={styles.fileList}>

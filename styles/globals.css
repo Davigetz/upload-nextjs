@@ -6,9 +6,10 @@ body {
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
-/* :root {
-  --number-actual: ;
-} */
+:root {
+  --widthy: 0;
+  --heighty: 0;
+}
 
 a {
   color: inherit;

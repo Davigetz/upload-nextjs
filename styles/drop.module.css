@@ -109,6 +109,12 @@ button.uploadBtn:hover {
   align-items: center;
 }
 
+.imageContainer {
+  width: var(--widthy);
+  height: var(--heighty);
+  position: relative;
+}
+
 .linked {
   display: flex;
   justify-content: center;

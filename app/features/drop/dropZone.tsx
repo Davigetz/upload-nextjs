@@ -45,8 +45,6 @@ const DropZone = () => {
     e.preventDefault();
     e.stopPropagation();
 
-    console.log(e.dataTransfer.files);
-
     // get files from event on the dataTransfer object as an array
     let files = [...e.dataTransfer.files];
 
@@ -103,7 +101,6 @@ const DropZone = () => {
       const pic = response.data.result;
       dispatch(pics(pic));
       router.push("/uploaded");
-      // console.log("logre entrar");
     }
   };
 
